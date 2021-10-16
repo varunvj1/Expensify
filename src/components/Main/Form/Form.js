@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { TextField, Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
+import { ExpenseTrackerContext } from "../../../context/context"
+import { v4 as uuidv4 } from "uuid"
 
 import useStyles from "./styles"
 
@@ -14,9 +16,20 @@ const Form = () => {
     //For styling
     const classes = useStyles()
 
-    //For form data
+    //Store data in a state
     const [formData, setFormData] = useState(initialState)
-    console.log(formData);
+
+    //Use context to store data in the GLOBAL state (add functionality)
+    const { addTransaction } = useContext(ExpenseTrackerContext)
+    const createTransaction = () => {
+        const transaction = { ...formData, amount: Number(formData.amount), id: uuidv4() }
+
+        //Call the addTransaction method of the context
+        addTransaction(transaction)
+
+        //Reset the form data to INITIALSTATE after clicking CREATE
+        setFormData(initialState);
+    }
 
     return (
         <Grid container spacing={2}>
@@ -38,9 +51,9 @@ const Form = () => {
                 <FormControl fullWidth>
                     <InputLabel>Category</InputLabel>
                     <Select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
-                        <MenuItem>Option1</MenuItem>
-                        <MenuItem>Option1</MenuItem>
-                        <MenuItem>Option1</MenuItem>
+                        <MenuItem value="Business">Business</MenuItem>
+                        <MenuItem value="Salary">Salary</MenuItem>
+                        <MenuItem value="Bonus">Bonus</MenuItem>
                     </Select>
                 </FormControl>
             </Grid>
@@ -50,7 +63,7 @@ const Form = () => {
             <Grid item xs={6}>
                 <TextField fullWidth label="Date" type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} />
             </Grid>
-            <Button className={classes.button} variant="outlined" color="primary" fullWidth>Create</Button>
+            <Button className={classes.button} variant="outlined" color="primary" fullWidth onClick={createTransaction}>Create</Button>
         </Grid>
     )
 }
