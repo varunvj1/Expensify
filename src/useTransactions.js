@@ -19,8 +19,6 @@ const useTransactions = (title) => {
 
     const categories = title === 'Income' ? incomeCategories : expenseCategories;
 
-    console.log({ transactionsPerType, total, categories });
-
     transactionsPerType.forEach((t) => {
         const category = categories.find((c) => c.type === t.category)
 
@@ -42,7 +40,7 @@ const useTransactions = (title) => {
         labels: filteredCategories.map((c) => c.type)
     }
 
-    return { filteredCategories, total, chartData }
+    return { total, chartData }
 }
 
 export default useTransactions
