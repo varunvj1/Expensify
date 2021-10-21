@@ -4,6 +4,7 @@ import { ExpenseTrackerContext } from "../../../context/context"
 import { incomeCategories, expenseCategories } from "../../../constants/categories"
 import formatDate from '../../../utils/formatDate'
 import { v4 as uuidv4 } from "uuid"
+import { useSpeechContext } from '@speechly/react-client'
 
 import useStyles from "./styles"
 
@@ -36,11 +37,14 @@ const Form = () => {
     //Change category for different type (whether Income or Expense)
     const selectedCategory = formData.type === 'Income' ? incomeCategories : expenseCategories;
 
+    //See what we are speaking
+    const { segment } = useSpeechContext();
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Typography align="center" variant="subtitle2" gutterBottom>
-                    ...
+                    {segment ? <div>{segment.words.map(w => w.value).join(' ')}</div> : null}
                 </Typography>
             </Grid>
             <Grid item xs={6}>
