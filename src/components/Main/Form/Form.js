@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { TextField, Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import { ExpenseTrackerContext } from "../../../context/context"
 import { incomeCategories, expenseCategories } from "../../../constants/categories"
@@ -24,6 +24,7 @@ const Form = () => {
 
     //Use context to store data in the GLOBAL state (add functionality)
     const { addTransaction } = useContext(ExpenseTrackerContext)
+
     const createTransaction = () => {
         const transaction = { ...formData, amount: Number(formData.amount), id: uuidv4() }
 
@@ -39,6 +40,49 @@ const Form = () => {
 
     //See what we are speaking
     const { segment } = useSpeechContext();
+
+    useEffect(() => {
+        if (segment) {
+            if (segment.intent.intent === 'add_expense') {
+                setFormData({ ...formData, type: 'Expense' })
+            }
+            else if (segment.intent.intent === 'add_income') {
+                setFormData({ ...formData, type: "Income" })
+            }
+            else if (segment.isFinal && segment.intent.intent === 'create_transaction') {
+                createTransaction();
+            }
+            else if (segment.isFinal && segment.intent.intent === 'cancel_transaction') {
+                setFormData(initialState);
+            }
+
+            //Set values to different form inputs
+            segment.entities.forEach((e) => {
+
+                switch (e.type) {
+                    case 'amount': setFormData({ ...formData, amount: e.value })
+                        break;
+                    case 'category': {
+                        //Set the category name to lower case
+                        const category = `${e.value.charAt(0)}${e.value.slice(1).toLowerCase()}`
+
+                        //if category and type input by the user does not match, then set type acc to the category
+                        if ((incomeCategories.map((ic) => ic.type).includes(category))) {
+                            setFormData({ ...formData, type: 'Income', category })
+                        }
+                        else if ((expenseCategories.map((ic) => ic.type).includes(category))) {
+                            setFormData({ ...formData, type: 'Expense', category })
+                        }
+                    }
+                        break;
+                    case 'date': setFormData({ ...formData, date: e.value })
+                        break;
+                    default:
+                        break;
+                }
+            })
+        }
+    }, [segment])
 
     return (
         <Grid container spacing={2}>
