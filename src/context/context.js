@@ -18,9 +18,19 @@ export const Provider = ({ children }) => {
     }
 
     // console.log(transactions);
+    //Total balance
+    let balance = 0
+    transactions.forEach((t) => {
+        if (t.type === 'Expense') {
+            balance -= t.amount
+        }
+        else {
+            balance += t.amount
+        }
+    })
 
     return (
-        <ExpenseTrackerContext.Provider value={{ deleteTransaction, addTransaction, transactions }}>
+        <ExpenseTrackerContext.Provider value={{ deleteTransaction, addTransaction, transactions, balance }}>
             {/* value object above is same as- */}
             {/* {
                 deleteTransaction: deleteTransaction,
