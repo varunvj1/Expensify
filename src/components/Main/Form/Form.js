@@ -26,6 +26,11 @@ const Form = () => {
     const { addTransaction } = useContext(ExpenseTrackerContext)
 
     const createTransaction = () => {
+        //Error Handling (if amount enterred is not a number)
+        if (Number.isNaN(Number(formData.amount)) || Number(formData.amount) <= 0) {
+            return;
+        }
+
         const transaction = { ...formData, amount: Number(formData.amount), id: uuidv4() }
 
         //Call the addTransaction method of the context
