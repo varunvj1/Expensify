@@ -10,6 +10,10 @@ export default makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             display: 'none',
         },
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex',
+            justifyContent: 'center'
+        },
     },
     main: {
         [theme.breakpoints.up('sm')]: {
@@ -20,6 +24,10 @@ export default makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             marginBottom: theme.spacing(3),
             paddingBottom: '200px',
+        },
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex',
+            justifyContent: 'center'
         },
     },
     grid: {

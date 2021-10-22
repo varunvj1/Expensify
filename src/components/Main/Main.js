@@ -13,7 +13,7 @@ const Main = () => {
 
     return (
         <Card className={classes.root}>
-            <CardHeader title="Expense Tracker" subheader="Powered By Speechly" />
+            <CardHeader title="Expensify" subheader="Powered By Speechly" />
             <CardContent>
                 <Typography align="center" variant="h5"> Total Balance: {balance < 0 ? `-₹${0 - balance}` : `₹${balance}`} </Typography>
                 <Typography variant="subtitle1" style={{ lineHeight: '1.5em', marginTop: '20px' }}>
