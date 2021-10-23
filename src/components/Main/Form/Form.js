@@ -86,6 +86,11 @@ const Form = () => {
                         break;
                 }
             })
+
+            //Create a transaction after all values have been enterred, whithout clicking the CREATE button
+            if (segment.isFinal && formData.amount && formData.category && formData.type && formData.date) {
+                createTransaction();
+            }
         }
     }, [segment])
 
