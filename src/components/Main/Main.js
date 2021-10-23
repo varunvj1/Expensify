@@ -17,7 +17,7 @@ const Main = () => {
             <CardContent>
                 <Typography align="center" variant="h5"> Total Balance: {balance < 0 ? `-₹${0 - balance}` : `₹${balance}`} </Typography>
                 <Typography variant="subtitle1" style={{ lineHeight: '1.5em', marginTop: '20px' }}>
-                    Try saying: Add income for $100 in Category Salary for Monday..
+                    Try saying: Add income for ₹100 in Category Salary for Monday..
                 </Typography>
                 <Divider />
                 <Form />
